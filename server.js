@@ -37,17 +37,19 @@ app.get("/books", (req, res) => {
   res.send(books);
 });
 // by id with author
-  app.get("/books/:id", (req, res) => {
-    const id = req.params.id;
-    const selected = books.find((b) => b.id === id);
-    // if found the id ,combine using ... then call out the additional stuff
-    if(selected) {
-        const selectedB = authors.find((a) => a.id === selected.authorId);
-        const combined = {...selected ,name:selectedB.name,bio:selectedB.bio };
-        res.send(combined);
-    }
-  });
-  
+app.get("/books/:id", (req, res) => {
+  const id = req.params.id;
+  const selected = books.find((b) => b.id === id);
+  // if found the id ,combine using ... then call out the additional stuff
+  if (selected) {
+    const selectedB = authors.find((a) => a.id === selected.authorId);
+    const combined = { ...selected, name: selectedB.name, bio: selectedB.bio };
+    res.send(combined);
+  } else {
+    res.send("undefined");
+  }
+});
+
 // app.get("/books/:id", (req, res) => {
 //   const id = req.params.id;
 //   const selectedB = books.find((b) => b.id === id);
@@ -66,8 +68,10 @@ app.get("/reviews/:id", (req, res) => {
   const review = reviews.find((r) => r.id === id);
   if (review) {
     const selectedA = books.find((b) => b.id === review.bookId);
-    const combined = { ...review, title:selectedA.title };
+    const combined = { ...review, title: selectedA.title };
     res.send(combined);
+  } else {
+    res.send("Undefined");
   }
 });
 
@@ -83,5 +87,5 @@ app.get("/authors/:id", (req, res) => {
 });
 
 app.listen(5554, () => {
-  console.log("Bookstore app is running on port 5554");
+  console.log("Bookstore app is running on http://localhost:5554");
 });
